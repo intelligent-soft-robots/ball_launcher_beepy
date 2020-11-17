@@ -14,23 +14,30 @@ The server side additionally needs
 ```bash
 sudo apt install libzmq3-dev
 sudo apt install protobuf-compiler libprotobuf-dev
-sudo pip install pyzmq
 
 # for server side only
 sudo pip install adafruit-pca9685
 ```
 
 ### Build using CMake
-In build directory
+In build directory:
+
 ```bash
 cmake path/to/repository
-make
+make install
+```
+
+This will generate the ball_launcher_pb2.py file in the ball_launcher subdirectory of the repository. In the repository directory:
+
+```bash
+pip install --editable .
 ```
 
 ## Usage
 
 ### Start server
 On Raspberry Pi built into ball launcher (in repository directory),
+
 ```bash
 python tests/run_server.py port_number
 ```
@@ -38,6 +45,7 @@ where port\_number specifies the port number, e.g., 5555.
 
 ### Creating a client in Python and launching a ball
 See tests/launch\_ball\_from\_client.py
+
 ```python
 import sys
 
@@ -58,6 +66,7 @@ client.launch_ball()
 
 ### Creating a client in C++ and launching a ball
 See tests/launch\_ball.cpp
+
 ```cpp
 #include <iostream>
 #include <string>
