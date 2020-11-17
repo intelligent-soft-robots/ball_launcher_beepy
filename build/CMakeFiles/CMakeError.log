@@ -1,0 +1,51 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_26879/fast"
+/usr/bin/make -f CMakeFiles/cmTC_26879.dir/build.make CMakeFiles/cmTC_26879.dir/build
+make[1]: Entering directory '/home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_26879.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++     -o CMakeFiles/cmTC_26879.dir/CheckSymbolExists.cxx.o -c /home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx
+Linking CXX executable cmTC_26879
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_26879.dir/link.txt --verbose=1
+/usr/bin/c++       CMakeFiles/cmTC_26879.dir/CheckSymbolExists.cxx.o  -o cmTC_26879 
+/usr/bin/ld: CMakeFiles/cmTC_26879.dir/CheckSymbolExists.cxx.o: in function `main':
+CheckSymbolExists.cxx:(.text+0x1f): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_26879.dir/build.make:87: cmTC_26879] Error 1
+make[1]: Leaving directory '/home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_26879/fast] Error 2
+
+File /home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e0a00/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e0a00.dir/build.make CMakeFiles/cmTC_e0a00.dir/build
+make[1]: Entering directory '/home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e0a00.dir/CheckFunctionExists.cxx.o
+/usr/bin/c++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_e0a00.dir/CheckFunctionExists.cxx.o -c /home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_e0a00
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e0a00.dir/link.txt --verbose=1
+/usr/bin/c++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_e0a00.dir/CheckFunctionExists.cxx.o  -o cmTC_e0a00 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_e0a00.dir/build.make:87: cmTC_e0a00] Error 1
+make[1]: Leaving directory '/home/nguertler/Development/ball_launcher_beepy/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e0a00/fast] Error 2
+
+
