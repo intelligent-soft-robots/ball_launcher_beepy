@@ -5,7 +5,7 @@ Expects port number as command line argument."""
 
 import sys
 
-import ball_launcher.ball_launcher_server as ball_launcher_server
+import ball_launcher_beepy.ball_launcher_server as ball_launcher_server
 
 if len(sys.argv) != 2:
     print("Please provide port number as command line argument.") 
