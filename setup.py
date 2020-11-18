@@ -5,5 +5,5 @@ setup(
     version="0.5",
     author="Nico Gürtler",
     packages=["ball_launcher"],
-    install_requires=[]
+    install_requires=["pyzmq", "protobuf"]
 )

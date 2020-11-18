@@ -14,8 +14,6 @@ The server side additionally needs
 ```bash
 sudo apt install libzmq3-dev
 sudo apt install protobuf-compiler libprotobuf-dev
-pip install pyzmq
-pip install protobuf
 
 # for server side only
 sudo pip install adafruit-pca9685
