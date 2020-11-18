@@ -1,6 +1,6 @@
 import zmq
 
-import ball_launcher_pb2
+from . import ball_launcher_pb2
 
 class BallLauncherClient:
     """Client sending commands to the ball launcher. Uses ZeroMQ for communication with server."""

@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/launch_ball.dir/launch_ball.cpp.o  -o launch_ball ../libball_launcher_client.a -lzmq ../libball_launcher_proto.a /usr/lib/x86_64-linux-gnu/libprotobuf.so -lpthread 

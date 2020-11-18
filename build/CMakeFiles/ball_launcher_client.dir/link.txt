@@ -1,2 +1,0 @@
-/usr/bin/ar qc libball_launcher_client.a  CMakeFiles/ball_launcher_client.dir/src/ball_launcher_client.cpp.o
-/usr/bin/ranlib libball_launcher_client.a

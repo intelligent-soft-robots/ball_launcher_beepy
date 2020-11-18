@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-3690609bac9026331d90ab6143da32b5 ball_launcher.pb.h
-76722e94c4383ec0a8b4530af2590939 ball_launcher_pb2.py

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libball_launcher_proto.a  CMakeFiles/ball_launcher_proto.dir/ball_launcher.pb.cc.o
-/usr/bin/ranlib libball_launcher_proto.a
