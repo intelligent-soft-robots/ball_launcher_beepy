@@ -9,14 +9,16 @@ Installation under Ubuntu 16.04 or Ubuntu 18.04
 * protobuf (Protocol buffers)
 
 The server side additionally needs
-* Adafruit\_PCA9685
+* xinabox-OC03
+* xinabox-OC05
 
 ```bash
 sudo apt install libzmq3-dev
 sudo apt install protobuf-compiler libprotobuf-dev
 
-# for server side only
-sudo pip install adafruit-pca9685
+# for server side only (TODO: Does this need a sudo?)
+pip3 install xinabox-OC05
+pip3 install xinabox-OC03
 ```
 
 ### Build using CMake
@@ -31,6 +33,44 @@ This will generate the ball_launcher_pb2.py file in the ball_launcher subdirecto
 
 ```bash
 pip install --editable .
+```
+
+### Configuration file
+
+The off ticks of the PWM signals as well as sleep times can be adjusted in a JSON file at `~/ball_launcher_config.json". Note: The comments were inserted for clarification but are not supported by JSON. Do not add them to the actual file.
+
+```json
+{
+    # channels used in servo driver
+    "channels": {
+      "phi": 1, # azimuthal angle of launcher
+      "theta": 2, # altitude of launcher
+      "motor_top_left": 6, # motor of top left wheel
+      "motor_top_right": 3, # motor of top right wheel
+      "motor_bottom": 7, # motor of bottom wheel
+      "ball_supply": 8, # pushes ball towards wheels
+      "stirrer": 5 # stirs ball in funnel
+    },
+    # max and min values for "off" tick value of pulse
+    "ticks":
+    {
+      "phi": [30, 150],
+      "theta": [30, 150],
+      "motor": [30, 150], 
+      "motor_top_left_offest": [0, 0], # offset is added to min/max respectively
+      "motor_top_right_offest": [0, 0],
+      "motor_bottom_offest": [10, 10],
+      "ball_supply_push": [30, 180],
+      "stirrer": [102, 180]
+    },
+    "times": {
+      # time to sleep after changing PWM signal in order to give system time
+      # to reach a stationary configuration. TODO: Adjust if necessary
+      "t_sleep": 1.0,
+      # time for the ball to fall to bottom of pipe in seconds
+      "t_ball_fall": 0.5
+    }
+}
 ```
 
 ## Usage
