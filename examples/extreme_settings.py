@@ -10,6 +10,6 @@ import ball_launcher as bl
 launcher = bl.BallLauncher()
 
 for orientation in itertools.product(*[[0., 1.]]*2):
-	for ang_vel in itertools.product(*[[0.2, 1.]]*2):
-	    launcher.set_state(*(orientation + ang_vel))
+	for motor in itertools.product(*[[0.2, 1.]]*3):
+	    launcher.set_state(*(orientation + motor))
 	    launcher.launch_ball()

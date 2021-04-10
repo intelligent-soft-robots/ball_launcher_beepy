@@ -20,10 +20,12 @@ class BallLauncherClient{
         /**
          * @param phi Azimuthal angle of launcher (in [0, 1])
          * @theta theta altitude of launcher (in [0, 1])
-         * @top_ang_vel top_ang_vel angular velocity of upper wheel (in [0, 1])
-         * @bottom_ang_vel bottom_ang_vel angular velocity of lower wheel (in [0, 1])
+         * @top_left_motor activation of top left motor (in [0, 1], default 0.0)
+         * @top_right_motor activation of top right motor (in [0, 1], default 0.0)
+         * @bottom_motor activation of bottom motor (in [0, 1], default 0.0)
          */
-        bool set_state(const double phi, const double theta, const double top_ang_vel, const double bottom_ang_vel);
+        bool set_state(const double phi, const double theta, const double top_left_motor, 
+                       const double top_right_motor, const double bottom_motor);
 
         
         /// Launch single ball

@@ -21,12 +21,12 @@ class BallLauncher:
         top_left_motor -- initial activation of top right motor (in [0, 1], default 0.0)
         bottom_motor -- initial activation of bottom motor (in [0, 1], default 0.0)
         config_path -- Path to configuration file. If None, the path 
-            "~/ball_launcher_config.json" is used.
+            "~/.ball_launcher_config.json" is used.
         """
 
         # load config file
         if config_path is None:
-            path = "~/ball_launcher_config.json"
+            path = "~/.ball_launcher_config.json"
         else:
             path = config_path
         with open(path, "r") as file:
@@ -78,9 +78,9 @@ class BallLauncher:
 
         self._set_off_ticks("phi", self.phi)
         self._set_off_ticks("theta", self.theta)
-        self._set_off_ticks("top_left_motor", self.top_left_motor)
-        self._set_off_ticks("top_right_motor", self.top_right_motor)
-        self._set_off_ticks("bottom_motor", self.bottom_motor)
+        self._set_off_ticks("top_left_motor", self.top_left_motor, motor=True)
+        self._set_off_ticks("top_right_motor", self.top_right_motor, motor=True)
+        self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
         time.sleep(self.T_SLEEP)
 
@@ -97,7 +97,7 @@ class BallLauncher:
         self._set_off_ticks("ball_supply", 1.0)
         # TODO: Why is it necessary to call setServoPosition repeatedly?
         for tick in np.range(self.conf["ticks"]["ball_supply"][0] + 3, 
-                             self.conf["ticks"]["ball_supply"][1], 3)
+                             self.conf["ticks"]["ball_supply"][1], 3):
             self.servo_driver2.setServoPosition(self.conf["channels"]["ball_supply"], tick)
 
         # retract rod
@@ -110,15 +110,21 @@ class BallLauncher:
         # to speed again after transferring energy to ball? Otherwise 
         # shooting in rapid succession would alter the velocity of the ball.
 
-    def _set_off_ticks(self, quantity, value):
+    def _set_off_ticks(self, quantity, value, motor=False):
         """Set tick value (integers) for end of pulse for PWM signal.
         
         Arguments:
         quantity -- name of the channel to be modified (see config file)
         value -- value in [0, 1] which interpolates between min and max off tick
+        motor -- boolean indicating whether this is channel attached to a motor
         """
         v = np.clip(value, 0., 1.)
         channel = self.conf["channel"][quantity]
-        ticks = self.conf["ticks"][quantity]
-        tick = round((1. - v)*tick[0] + v*tick[1])
+        if motor:
+            motor_ticks = self.conf["ticks"]["motor"]
+            motor_offset = self.conf["ticks"][quantity + "_offset"]
+            ticks = [t + offset for t, offset in zip(motor_ticks, motor_offset)]
+        else:
+            ticks = self.conf["ticks"][quantity]
+        tick = round((1. - v)*ticks[0] + v*ticks[1])
         self.servo_driver2.setServoPosition(channel, tick)

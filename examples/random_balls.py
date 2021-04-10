@@ -19,10 +19,11 @@ else:
     for i in range(n_balls):
         phi = random.random()
         theta = random.random()
-        top_vel = random.uniform(0.2, 1.0)
-        bottom_vel = random.uniform(0.2, 1.0)
+        top_left_motor = random.uniform(0.2, 1.0)
+        top_right_motor = random.uniform(0.2, 1.0)
+        bottom_motor = random.uniform(0.2, 1.0)
 
-        launcher.set_state(phi, theta, top_vel, bottom_vel)
+        launcher.set_state(phi, theta, top_left_motor, top_right_motor, bottom_motor)
         launcher.launch_ball()
 
         time.sleep(2)

@@ -13,15 +13,18 @@ BallLauncherClient::~BallLauncherClient(){
     zmq_ctx_destroy(context);
 }
 
-bool BallLauncherClient::set_state(const double phi, const double theta, const double top_ang_vel, const double bottom_ang_vel){
+bool BallLauncherClient::set_state(const double phi, const double theta, 
+    const double top_left_motor, const double top_right_motor, 
+    const double bottom_motor){
     ball_launcher::Request request;
 
     request.set_request(ball_launcher::Request::SET_STATE);
     ball_launcher::Request_State* state = new ball_launcher::Request_State;// = request.state();
     state->set_phi(phi);
     state->set_theta(theta);
-    state->set_top_ang_vel(top_ang_vel);
-    state->set_bottom_ang_vel(bottom_ang_vel);
+    state->set_top_left_motor(top_left_motor);
+    state->set_top_right_motor(top_right_motor);
+    state->set_bottom_motor(bottom_motor);
     request.set_allocated_state(state);
 
     string msg_string; 

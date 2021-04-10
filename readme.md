@@ -37,7 +37,7 @@ pip install --editable .
 
 ### Configuration file
 
-The off ticks of the PWM signals as well as sleep times can be adjusted in a JSON file at `~/ball_launcher_config.json". Note: The comments were inserted for clarification but are not supported by JSON. Do not add them to the actual file.
+The off ticks of the PWM signals as well as sleep times can be adjusted in a JSON file at `~/.ball_launcher_config.json". Note: The comments were inserted for clarification but are not supported by JSON. Do not add them to the actual file.
 
 ```json
 {
@@ -57,9 +57,9 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       "phi": [30, 150],
       "theta": [30, 150],
       "motor": [30, 150], 
-      "motor_top_left_offest": [0, 0], # offset is added to min/max respectively
-      "motor_top_right_offest": [0, 0],
-      "motor_bottom_offest": [10, 10],
+      "motor_top_left_offset": [0, 0], # offset is added to min/max respectively
+      "motor_top_right_offset": [0, 0],
+      "motor_bottom_offset": [10, 10],
       "ball_supply_push": [30, 180],
       "stirrer": [102, 180]
     },

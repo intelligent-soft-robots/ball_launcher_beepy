@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='ball_launcher',
   syntax='proto2',
   serialized_options=None,
-  serialized_pb=_b('\n\x13\x62\x61ll_launcher.proto\x12\rball_launcher\"\xfc\x01\n\x07Request\x12\x33\n\x07request\x18\x01 \x02(\x0e\x32\".ball_launcher.Request.RequestType\x12+\n\x05state\x18\x02 \x01(\x0b\x32\x1c.ball_launcher.Request.State\x1a`\n\x05State\x12\x10\n\x03phi\x18\x01 \x01(\x02:\x03\x30.5\x12\x12\n\x05theta\x18\x02 \x01(\x02:\x03\x30.5\x12\x16\n\x0btop_ang_vel\x18\x03 \x01(\x02:\x01\x30\x12\x19\n\x0e\x62ottom_ang_vel\x18\x04 \x01(\x02:\x01\x30\"-\n\x0bRequestType\x12\r\n\tSET_STATE\x10\x00\x12\x0f\n\x0bLAUNCH_BALL\x10\x01')
+  serialized_pb=_b('\n\x13\x62\x61ll_launcher.proto\x12\rball_launcher\"\x99\x02\n\x07Request\x12\x33\n\x07request\x18\x01 \x02(\x0e\x32\".ball_launcher.Request.RequestType\x12+\n\x05state\x18\x02 \x01(\x0b\x32\x1c.ball_launcher.Request.State\x1a}\n\x05State\x12\x10\n\x03phi\x18\x01 \x01(\x02:\x03\x30.5\x12\x12\n\x05theta\x18\x02 \x01(\x02:\x03\x30.5\x12\x19\n\x0etop_left_motor\x18\x03 \x01(\x02:\x01\x30\x12\x1a\n\x0ftop_right_motor\x18\x04 \x01(\x02:\x01\x30\x12\x17\n\x0c\x62ottom_motor\x18\x05 \x01(\x02:\x01\x30\"-\n\x0bRequestType\x12\r\n\tSET_STATE\x10\x00\x12\x0f\n\x0bLAUNCH_BALL\x10\x01')
 )
 
 
@@ -41,8 +41,8 @@ _REQUEST_REQUESTTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=246,
-  serialized_end=291,
+  serialized_start=275,
+  serialized_end=320,
 )
 _sym_db.RegisterEnumDescriptor(_REQUEST_REQUESTTYPE)
 
@@ -69,15 +69,22 @@ _REQUEST_STATE = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='top_ang_vel', full_name='ball_launcher.Request.State.top_ang_vel', index=2,
+      name='top_left_motor', full_name='ball_launcher.Request.State.top_left_motor', index=2,
       number=3, type=2, cpp_type=6, label=1,
       has_default_value=True, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='bottom_ang_vel', full_name='ball_launcher.Request.State.bottom_ang_vel', index=3,
+      name='top_right_motor', full_name='ball_launcher.Request.State.top_right_motor', index=3,
       number=4, type=2, cpp_type=6, label=1,
+      has_default_value=True, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='bottom_motor', full_name='ball_launcher.Request.State.bottom_motor', index=4,
+      number=5, type=2, cpp_type=6, label=1,
       has_default_value=True, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -95,7 +102,7 @@ _REQUEST_STATE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=148,
-  serialized_end=244,
+  serialized_end=273,
 )
 
 _REQUEST = _descriptor.Descriptor(
@@ -133,7 +140,7 @@ _REQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=39,
-  serialized_end=291,
+  serialized_end=320,
 )
 
 _REQUEST_STATE.containing_type = _REQUEST

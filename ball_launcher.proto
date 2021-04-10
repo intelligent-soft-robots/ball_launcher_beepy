@@ -11,8 +11,9 @@ message Request {
   message State {
     optional float phi = 1 [ default = 0.5];
     optional float theta = 2 [ default = 0.5];
-    optional float top_ang_vel = 3 [ default = 0.0 ];
-    optional float bottom_ang_vel = 4 [ default = 0.0 ];
+    optional float top_left_motor = 3 [ default = 0.0 ];
+    optional float top_right_motor = 4 [ default = 0.0 ];
+    optional float bottom_motor = 5 [ default = 0.0 ];
   }
   
   required RequestType request = 1;

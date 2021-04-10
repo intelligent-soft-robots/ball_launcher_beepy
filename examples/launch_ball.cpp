@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
     if(argc == 3){
         BallLauncherClient bl_client(string(argv[1]), stoi(argv[2]));
 
-        bl_client.set_state(0.5, 0.5, 0.5, 0.5);
+        bl_client.set_state(0.5, 0.5, 0.3, 0.3, 0.3);
         bl_client.launch_ball();
 
     }
