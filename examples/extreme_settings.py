@@ -1,11 +1,11 @@
-"""Launch 2^4 balls with extreme settings, i.e. each parameter of the launcher is
-either at its minimum or maximum value.
+"""Launch 2^5 balls with extreme settings, i.e. each parameter of the launcher is
+either at its minimum or maximum value. NOTE: Balls might be fast!
 """
 
 import time
 import itertools
 
-import ball_launcher as bl
+import ball_launcher.ball_launcher_control as bl
 
 launcher = bl.BallLauncher()
 

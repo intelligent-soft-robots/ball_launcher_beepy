@@ -28,6 +28,6 @@ if __name__ == "__main__":
         top_right_motor=args.top_right_motor,
         bottom_motor=args.bottom_motor
     )
+    time.sleep(1)
     launcher.launch_ball()
-
     time.sleep(1)

@@ -45,10 +45,10 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
     "channels": {
       "phi": 1, # azimuthal angle of launcher
       "theta": 2, # altitude of launcher
-      "motor_top_left": 6, # motor of top left wheel
-      "motor_top_right": 3, # motor of top right wheel
-      "motor_bottom": 7, # motor of bottom wheel
-      "ball_supply": 8, # pushes ball towards wheels
+      "top_left_motor": 6, # motor of top left wheel
+      "top_right_motor": 3, # motor of top right wheel
+      "bottom_motor": 7, # motor of bottom wheel
+      "ball_supply_push": 8, # pushes ball towards wheels
       "stirrer": 5 # stirs ball in funnel
     },
     # max and min values for "off" tick value of pulse
@@ -57,9 +57,9 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       "phi": [30, 150],
       "theta": [30, 150],
       "motor": [30, 150], 
-      "motor_top_left_offset": [0, 0], # offset is added to min/max respectively
-      "motor_top_right_offset": [0, 0],
-      "motor_bottom_offset": [10, 10],
+      "top_left_motor_offset": [0, 0], # offset is added to min/max respectively
+      "top_right_motor_offset": [0, 0],
+      "bottom_motor_offset": [10, 10],
       "ball_supply_push": [30, 180],
       "stirrer": [102, 180]
     },

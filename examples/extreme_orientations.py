@@ -5,9 +5,9 @@ either at its minimum or maximum value.
 import time
 import itertools
 
-import ball_launcher as bl
+from ball_launcher.ball_launcher_control import BallLauncher
 
-launcher = bl.BallLauncher()
+launcher = BallLauncher()
 
 motor = ((0.3, 0.3, 0.3))
 

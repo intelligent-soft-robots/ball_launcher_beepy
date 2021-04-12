@@ -42,7 +42,7 @@ class BallLauncher:
         self.set_state(phi, theta, top_left_motor, top_right_motor, bottom_motor)
 
         # open ball supply initially
-        self._set_off_ticks("ball_supply", 0.0)
+        self._set_off_ticks("ball_supply_push", 0.0)
 
         # initial position of stirrer
         self._set_off_ticks("stirrer", 0.0)
@@ -83,7 +83,7 @@ class BallLauncher:
         self._set_off_ticks("top_right_motor", self.top_right_motor, motor=True)
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
-        time.sleep(self.T_SLEEP)
+        time.sleep(self.conf["times"]["t_sleep"])
 
     def launch_ball(self):
         """Launch single ball."""
@@ -95,14 +95,14 @@ class BallLauncher:
         time.sleep(self.conf["times"]["t_ball_fall"])  
 
         # close and push one ball to wheels
-        self._set_off_ticks("ball_supply", 1.0)
+        self._set_off_ticks("ball_supply_push", 1.0)
         # TODO: Why is it necessary to call setServoPosition repeatedly?
-        for tick in np.range(self.conf["ticks"]["ball_supply"][0] + 3, 
-                             self.conf["ticks"]["ball_supply"][1], 3):
-            self.servo_driver2.setServoPosition(self.conf["channels"]["ball_supply"], tick)
+        for tick in range(self.conf["ticks"]["ball_supply_push"][0] + 3, 
+                             self.conf["ticks"]["ball_supply_push"][1], 3):
+            self.servo_driver2.setServoPosition(self.conf["channels"]["ball_supply_push"], tick)
 
         # retract rod
-        self._set_off_ticks("ball_supply", 0.0)
+        self._set_off_ticks("ball_supply_push", 0.0)
 
         # reset stirrer
         self._set_off_ticks("stirrer", 0.0)
