@@ -3,6 +3,7 @@
 Expects IP address of server and port number as command line arguments."""
 
 import argparse
+from time import sleep
 
 import ball_launcher.ball_launcher_client as ball_launcher_client
 
@@ -18,7 +19,7 @@ if __name__ == "__main__":
     parser.add_argument("bottom_motor", type=float, help="Activation of bottom motor.")
     args = parser.parse_args()
 
-    client = ball_launcher_client.BallLauncherClient(ip_address, port)
+    client = ball_launcher_client.BallLauncherClient(args.ip, args.port)
     client.set_state(
         phi=args.phi,
         theta=args.theta,
@@ -26,4 +27,5 @@ if __name__ == "__main__":
         top_right_motor=args.top_right_motor,
         bottom_motor=args.bottom_motor
     )
+    sleep(1)
     client.launch_ball()

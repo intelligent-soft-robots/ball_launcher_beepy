@@ -1,6 +1,6 @@
 import zmq
 
-from . import ball_launcher_pb2
+from .ball_launcher_pb2 import Request
 
 
 class BallLauncherClient:
@@ -33,9 +33,9 @@ class BallLauncherClient:
         """
 
         # communicate request to server using protobuf
-        request = ball_launcher_pb2.Request()
+        request = Request()
 
-        request.request = ball_launcher_pb2.Request.RequestType.SET_STATE
+        request.request = Request.RequestType.Value("SET_STATE")
         request.state.phi = phi
         request.state.theta = theta
         request.state.top_left_motor = top_left_motor
@@ -52,8 +52,8 @@ class BallLauncherClient:
     def launch_ball(self):
         """Launch single ball."""
         # communicate request to server using protobuf
-        request = ball_launcher_pb2.Request()
-        request.request = ball_launcher_pb2.Request.RequestType.LAUNCH_BALL
+        request = Request()
+        request.request = Request.RequestType.Value("LAUNCH_BALL")
 
         self.socket.send(request.SerializeToString())
 
