@@ -68,7 +68,11 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       # to reach a stationary configuration. TODO: Adjust if necessary
       "t_sleep": 1.0,
       # time for the ball to fall to bottom of pipe in seconds
-      "t_ball_fall": 0.5
+      "t_ball_fall": 0.5,
+      # time interval during which the ball supply servo can push
+      # the ball up to the wheels (if this is too short the inertia
+      # of the rod and wheel will prevent the rod from going up).
+      "t_ball_supply_extension": 0.6
     }
 }
 ```

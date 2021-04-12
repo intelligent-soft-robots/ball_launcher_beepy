@@ -100,6 +100,7 @@ class BallLauncher:
         for tick in range(self.conf["ticks"]["ball_supply_push"][0] + 3, 
                              self.conf["ticks"]["ball_supply_push"][1], 3):
             self.servo_driver2.setServoPosition(self.conf["channels"]["ball_supply_push"], tick)
+        time.sleep(self.conf["times"]["t_ball_supply_extension"])
 
         # retract rod
         self._set_off_ticks("ball_supply_push", 0.0)
