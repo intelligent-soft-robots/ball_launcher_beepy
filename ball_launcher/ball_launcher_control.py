@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import os
 import time
 
 from xOC05 import xOC05
@@ -26,7 +27,7 @@ class BallLauncher:
 
         # load config file
         if config_path is None:
-            path = "~/.ball_launcher_config.json"
+            path = os.path.expanduser("~/.ball_launcher_config.json")
         else:
             path = config_path
         with open(path, "r") as file:
