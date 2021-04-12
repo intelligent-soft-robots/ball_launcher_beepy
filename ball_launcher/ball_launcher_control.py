@@ -120,7 +120,7 @@ class BallLauncher:
         motor -- boolean indicating whether this is channel attached to a motor
         """
         v = np.clip(value, 0., 1.)
-        channel = self.conf["channel"][quantity]
+        channel = self.conf["channels"][quantity]
         if motor:
             motor_ticks = self.conf["ticks"]["motor"]
             motor_offset = self.conf["ticks"][quantity + "_offset"]
