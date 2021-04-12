@@ -1,7 +1,7 @@
 import zmq
 
-import ball_launcher_pb2
-import ball_launcher.ball_launcher_control as ball_launcher_control
+from .ball_launcher_pb2 import Request
+from .ball_launcher_control import BallLauncher
 
 
 class BallLauncherServer:
@@ -18,7 +18,7 @@ class BallLauncherServer:
         self.socket.bind("tcp://*:{}".format(port_number))
 
         # BallLauncher object that controls servos. Initialized at neutral orientation, wheels at rest.
-        self.launcher = ball_launcher_control.BallLauncher()
+        self.launcher = BallLauncher()
         
     def run(self):
         """Run server which starts to listen to messages from clients containing requests for the ball launcher."""
@@ -26,13 +26,13 @@ class BallLauncherServer:
         while True:
             # Wait for next request from client
             message = self.socket.recv()
-            request = ball_launcher_pb2.Request()
+            request = Request()
             try:
                 # Process message using protobuf
                 request.ParseFromString(message)
 
                 # Use ball launcher to realize request
-                if request.request == ball_launcher_pb2.Request.RequestType.SET_STATE:
+                if request.request == Request.RequestType.SET_STATE:
                     self.launcher.set_state(
                         phi=request.state.phi,
                         theta=request.state.theta,
@@ -40,7 +40,7 @@ class BallLauncherServer:
                         top_right_motor=request.state.top_right_motor,
                         bottom_motor=request.state.bottom_motor
                     )
-                elif request.request == ball_launcher_pb2.Request.RequestType.LAUNCH_BALL:
+                elif request.request == Request.RequestType.LAUNCH_BALL:
                     self.launcher.launch_ball()
                 else:
                     raise Exception("Ball launcher server: Unknown request type: {}".format(request.request))
