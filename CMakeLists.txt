@@ -2,18 +2,24 @@ cmake_minimum_required(VERSION 3.5)
 project(ball_launcher_beepy VERSION 1.0
                       LANGUAGES CXX)
 
-find_package(Protobuf REQUIRED)
-
-find_package(catkin REQUIRED)
-
 # specify the C++ standard
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-catkin_package(
- LIBRARIES ball_launcher_proto ball_launcher_client
- INCLUDE_DIRS include 
+# dependencies		    
+find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(mpi_cmake_modules REQUIRED)
+find_package(Protobuf REQUIRED)
+ament_export_dependencies(
+  mpi_cmake_modules
 )
+
+
+# prepare to export all needed targets
+set(all_targets)
+set(all_target_exports)
+
 # generate C++ files required for protocol buffer
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS ball_launcher.proto)
 add_library(ball_launcher_proto STATIC ${PROTO_SRCS} ${PROTO_HDRS})
@@ -26,11 +32,10 @@ target_include_directories(ball_launcher_client PUBLIC include ${Protobuf_INCLUD
 target_link_libraries(ball_launcher_client PUBLIC ball_launcher_proto)
 
 # tests
-add_subdirectory(tests)
+# add_subdirectory(tests)
 
 # generate python code from protocol buffers
 find_program(PYTHON "python") 
-
 if (PYTHON)   
   protobuf_generate_python(PROTO_PY ball_launcher.proto)   
   add_custom_target(ball_launcher_py_proto ALL SOURCES ${PROTO_PY} )
@@ -39,4 +44,14 @@ if (PYTHON)
   catkin_python_setup()
 endif()
 
-
+# install and export
+install(DIRECTORY include/ DESTINATION include)
+install(
+  TARGETS ${all_targets}
+  EXPORT ${all_target_exports}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES
+  DESTINATION include)
+ament_package()
