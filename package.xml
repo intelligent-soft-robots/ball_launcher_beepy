@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>ball_launcher_beepy</name>
+  <version>1.0.0</version>
+  <description>ZeroMq customized ball launcher</description>
+  <author email="nico.guertler@tuebingen.mpg.de">Nico Guertler</author>
+  <maintainer email="nico.guertler@tuebingen.mpg.de">Nico Guertler</maintainer>
+  <license>BSD 3-Clause</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>mpi_cmake_modules</depend>
+  <export>
+  </export>
+</package>

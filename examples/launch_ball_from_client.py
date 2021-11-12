@@ -4,7 +4,6 @@ Expects IP address of server and port number as command line arguments."""
 
 import argparse
 from time import sleep
-
 import ball_launcher.ball_launcher_client as ball_launcher_client
 
 
