@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ball_launcher_beepy VERSION 1.0
-                      LANGUAGES CXX)
+project(ball_launcher_beepy)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -39,9 +38,10 @@ find_program(PYTHON "python")
 if (PYTHON)   
   protobuf_generate_python(PROTO_PY ball_launcher.proto)   
   add_custom_target(ball_launcher_py_proto ALL SOURCES ${PROTO_PY} )
+  _ament_cmake_python_get_python_install_dir()
   install(FILES ${PROTO_PY}
-    DESTINATION ${CATKIN_PACKAGE_PYTHON_DESTINATION})
-  catkin_python_setup()
+    DESTINATION ${PYTHON_INSTALL_DIR})
+  ament_python_install_package(${PROJECT_NAME} PACKAGE_DIR python/${PROJECT_NAME})
 endif()
 
 # install and export

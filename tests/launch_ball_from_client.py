@@ -5,7 +5,7 @@ Expects IP address of server and port number as command line arguments."""
 
 import sys
 
-import ball_launcher.ball_launcher_client as ball_launcher_client
+import ball_launcher_beepy.ball_launcher_client as ball_launcher_client
 
 if len(sys.argv) != 3:
     print("Please provide IP address and port number as command line arguments.") 
