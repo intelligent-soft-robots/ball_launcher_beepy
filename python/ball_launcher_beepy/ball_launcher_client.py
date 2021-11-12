@@ -4,14 +4,14 @@ from .ball_launcher_pb2 import Request
 
 
 class BallLauncherClient:
-    """Client sending commands to the ball launcher. 
-    
+    """Client sending commands to the ball launcher.
+
     Uses ZeroMQ for communication with server.
     """
 
     def __init__(self, ip_address, port_number):
-        """Set up ball launcher client. 
-        
+        """Set up ball launcher client.
+
         Expects ip address of server as string and port number.
         """
 
@@ -19,11 +19,12 @@ class BallLauncherClient:
         self.socket = self.context.socket(zmq.REQ)
         print("tcp://{}:{}".format(ip_address, port_number))
         self.socket.connect("tcp://{}:{}".format(ip_address, port_number))
-        
-    def set_state(self, phi, theta, top_left_motor=0., top_right_motor=0., 
-            bottom_motor=0.):
+
+    def set_state(
+        self, phi, theta, top_left_motor=0.0, top_right_motor=0.0, bottom_motor=0.0
+    ):
         """Set orientation of launcher and motor speeds.
-        
+
         Arguments:
         phi -- azimuthal angle of launcher (in [0, 1])
         theta -- altitude of launcher (in [0, 1])
@@ -60,4 +61,6 @@ class BallLauncherClient:
         # Get the reply
         message = self.socket.recv()
         if message == "0":
-            raise Exception("Ball launcher server failed to process LAUNCH_BALL request.")
+            raise Exception(
+                "Ball launcher server failed to process LAUNCH_BALL request."
+            )

@@ -6,7 +6,7 @@ The ball launcher server should be running on the
 raspberry pi of the ball launcher.
 """
 
-import typing
+import time,typing
 from ball_launcher_beepy import BallLauncher
 
 
@@ -83,6 +83,19 @@ def _launch(config: _BallLauncherConfig) -> None:
         config.bottom_motor,
     ) as client:
         client.launch_ball()
+
+def _launch2(pouet):
+    from ball_launcher_beepy import BallLauncherClient
+    client = BallLauncherClient("10.42.31.174", 5555)
+    client.set_state(
+        phi=0.5,
+        theta=0.5,
+        top_left_motor=0.,
+        top_right_motor=0.,
+        bottom_motor=0.
+    )
+    time.sleep(1)
+    client.launch_ball()
 
 
 def _execute():

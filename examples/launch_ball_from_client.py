@@ -4,8 +4,8 @@ Expects IP address of server and port number as command line arguments."""
 
 import argparse
 from time import sleep
-import ball_launcher.ball_launcher_client as ball_launcher_client
-
+#import ball_launcher.ball_launcher_client as ball_launcher_client
+from ball_launcher_beepy import BallLauncherClient
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Start client, send set state request and then launch ball request to ball launcher server.")
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     parser.add_argument("bottom_motor", type=float, help="Activation of bottom motor.")
     args = parser.parse_args()
 
-    client = ball_launcher_client.BallLauncherClient(args.ip, args.port)
+    client = BallLauncherClient(args.ip, args.port)
     client.set_state(
         phi=args.phi,
         theta=args.theta,

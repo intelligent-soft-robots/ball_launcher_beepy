@@ -5,9 +5,9 @@ from .ball_launcher_control import BallLauncher
 
 
 class BallLauncherServer:
-    """Server waiting for commands for the ball launcher. 
-    
-    Uses ZeroMQ for communication with clients. Uses BallLauncher 
+    """Server waiting for commands for the ball launcher.
+
+    Uses ZeroMQ for communication with clients. Uses BallLauncher
     object for control of ball launcher."""
 
     def __init__(self, port_number):
@@ -19,7 +19,7 @@ class BallLauncherServer:
 
         # BallLauncher object that controls servos. Initialized at neutral orientation, wheels at rest.
         self.launcher = BallLauncher()
-        
+
     def run(self):
         """Run server which starts to listen to messages from clients containing requests for the ball launcher."""
 
@@ -38,12 +38,16 @@ class BallLauncherServer:
                         theta=request.state.theta,
                         top_left_motor=request.state.top_left_motor,
                         top_right_motor=request.state.top_right_motor,
-                        bottom_motor=request.state.bottom_motor
+                        bottom_motor=request.state.bottom_motor,
                     )
                 elif request.request == Request.RequestType.LAUNCH_BALL:
                     self.launcher.launch_ball()
                 else:
-                    raise Exception("Ball launcher server: Unknown request type: {}".format(request.request))
+                    raise Exception(
+                        "Ball launcher server: Unknown request type: {}".format(
+                            request.request
+                        )
+                    )
             except Exception:
                 self.socket.send(b"0")
             else:
