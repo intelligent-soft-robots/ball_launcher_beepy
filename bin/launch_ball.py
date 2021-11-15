@@ -6,7 +6,7 @@ The ball launcher server should be running on the
 raspberry pi of the ball launcher.
 """
 
-import time,typing
+import time, typing
 from ball_launcher_beepy import BallLauncher
 
 
@@ -39,16 +39,18 @@ def _dialog() -> _BallLauncherConfig:
         ("bottom_motor", float),
     )
 
-    def _get_user_input(arg: str, type_:typing.Union[str,int,float], config: _BallLauncherConfig) -> bool:
+    def _get_user_input(
+        arg: str, type_: typing.Union[str, int, float], config: _BallLauncherConfig
+    ) -> bool:
         # returns None if keyboard interrupt, user entered value otherwise
         ok = False
         while not ok:
             value = input(
                 str("\tvalue for {} ({}): ").format(arg, getattr(config, arg))
             )
-            if value=="":
+            if value == "":
                 # user pressed enter, using default value
-                value=getattr(config,arg)
+                value = getattr(config, arg)
             try:
                 value = type_(value)
                 ok = True
@@ -63,7 +65,7 @@ def _dialog() -> _BallLauncherConfig:
         if value is None:
             return None
         else:
-            setattr(config,arg,value)
+            setattr(config, arg, value)
 
     return config
 
@@ -84,19 +86,6 @@ def _launch(config: _BallLauncherConfig) -> None:
     ) as client:
         client.launch_ball()
 
-def _launch2(pouet):
-    from ball_launcher_beepy import BallLauncherClient
-    client = BallLauncherClient("10.42.31.174", 5555)
-    client.set_state(
-        phi=0.5,
-        theta=0.5,
-        top_left_motor=0.,
-        top_right_motor=0.,
-        bottom_motor=0.
-    )
-    time.sleep(1)
-    client.launch_ball()
-
 
 def _execute():
 
@@ -108,8 +97,6 @@ def _execute():
 
 
 if __name__ == "__main__":
-    """
-    Starts a configuration dialog, then
-    send a ball according to the provided configuration.
-    """
+    # Starts a configuration dialog, then
+    # send a ball according to the provided configuration.
     _execute()
