@@ -10,7 +10,7 @@ the ball won't be launched. """
 import argparse
 import time
 
-import ball_launcher.ball_launcher_control as bl
+import ball_launcher_beepy.ball_launcher_control as bl
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Set up ball launcher and launch one ball.")

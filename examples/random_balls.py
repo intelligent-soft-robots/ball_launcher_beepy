@@ -7,7 +7,7 @@ import time
 import random
 import sys
 
-import ball_launcher.ball_launcher_control as bl
+import ball_launcher_beepy.ball_launcher_control as bl
 
 if len(sys.argv) != 2:
     print("Please provide number of balls to launch as command line argument.")
