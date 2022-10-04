@@ -1,10 +1,12 @@
 import json
-import numpy as np
 import os
-import time
+import threading
+
+import numpy as np
 
 from xOC05 import xOC05
 from xOC03 import xOC03  # TODO: Why do we import a module for a second servo driver?
+from RPi import GPIO
 
 
 class BallLauncher:
@@ -57,8 +59,26 @@ class BallLauncher:
         # TODO: What does this do?
         self.servo_driver1.writePin(True)
 
+        # automatic motor reset after launching
+        self.automatic_motor_reset = bool(
+            self.conf["launching_parameters"]["automatic_motor_reset"]
+        )
+        self.stirring_after_launch = bool(
+            self.conf["launching_parameters"]["stirring_after_launch"]
+        )
+
+        # initialisierung GPIO Ports for stirr sensor if available
+        self._stirr_sensor_available = False
+
+        if "stirr_sensor" in self.conf["channels"]:
+            self._stirr_sensor_available = True
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(self.conf["channels"]["stirr_sensor"], GPIO.IN)
+
+        self.set_state(0.5, 0.5, 0.0, 0.0, 0.0)
+
     def __del__(self):
-        """Switch off motors and go to neutral orientation."""
+        """Switches off motors and sets orientation to neutral."""
 
         self.set_state(0.5, 0.5, 0.0, 0.0, 0.0)
         self._set_off_ticks("stirrer", 0.0)
@@ -91,39 +111,58 @@ class BallLauncher:
         self._set_off_ticks("top_right_motor", self.top_right_motor, motor=True)
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
-        time.sleep(self.conf["times"]["t_sleep"])
-
     def launch_ball(self):
-        """Launch single ball."""
+        """Sets state and launches ball. Resets state after specified time."""
 
-        # stir balls
-        self._set_off_ticks("stirrer", 1.0)
+        def _timed_reset_stirring(self):
+            """Timed function for reseting stirring."""
+            # reset stirrer
+            self._set_off_ticks("stirrer", 0.0)
 
-        # wait for ball to fall down in pipe
-        time.sleep(self.conf["times"]["t_ball_fall"])
+        def _timed_launching(self):
+            """Timed function for delayed launching."""
+            self._set_off_ticks("ball_supply_push", 0.0)
+            for tick in np.arange(
+                self.conf["ticks"]["ball_supply_push"][0],
+                self.conf["ticks"]["ball_supply_push"][1],
+                self.conf["launching_parameters"]["ball_supply_stroke_gain"],
+            ):
+                self.servo_driver2.setServoPosition(
+                    self.conf["channels"]["ball_supply_push"], tick
+                )
+
+        def _timed_reset_ball_supply(self):
+            """Timed function for reseting / retracting ball supply rod."""
+            self._set_off_ticks("ball_supply_push", 0.0)
+
+        if self.stirring_after_launch:
+            # stir balls
+            self._set_off_ticks("stirrer", 1.0)
+
+            # delayed reset of stirring
+            stirring_time = self.conf["times"]["t_stirring"]
+            stirr_timer = threading.Timer(stirring_time, _timed_reset_stirring)
+            stirr_timer.start()
 
         # close and push one ball to wheels
-        self._set_off_ticks("ball_supply_push", 1.0)
-        # TODO: Why is it necessary to call setServoPosition repeatedly?
-        for tick in range(
-            self.conf["ticks"]["ball_supply_push"][0] + 3,
-            self.conf["ticks"]["ball_supply_push"][1],
-            3,
-        ):
-            self.servo_driver2.setServoPosition(
-                self.conf["channels"]["ball_supply_push"], tick
+        t_launch_delay = self.conf["times"]["t_launch_delay"]
+        launch_timer = threading.Timer(t_launch_delay, _timed_launching)
+        launch_timer.start()
+
+        # resets crank mechanism of ball supply unit
+        t_supply_reset = self.conf["times"]["t_supply_reset"]
+        t_supply_reset += t_launch_delay
+        supply_timer = threading.Timer(t_supply_reset, _timed_reset_ball_supply)
+        supply_timer.start()
+
+        if self.automatic_motor_reset:
+            # turns motors off after launch
+            t_reset_motors = self.conf["times"]["t_reset_motors"]
+            t_reset_motors += t_supply_reset
+            motor_reset_timer = threading.Timer(
+                t_reset_motors, self.set_state, [self.phi, self.theta, 0.0, 0.0, 0.0]
             )
-        time.sleep(self.conf["times"]["t_ball_supply_extension"])
-
-        # retract rod
-        self._set_off_ticks("ball_supply_push", 0.0)
-
-        # reset stirrer
-        self._set_off_ticks("stirrer", 0.0)
-
-        # TODO: Should there be a sleep time here to ensure that wheels get up
-        # to speed again after transferring energy to ball? Otherwise
-        # shooting in rapid succession would alter the velocity of the ball.
+            motor_reset_timer.start()
 
     def _set_off_ticks(self, quantity, value, motor=False):
         """Set tick value (integers) for end of pulse for PWM signal.
@@ -141,5 +180,16 @@ class BallLauncher:
             ticks = [t + offset for t, offset in zip(motor_ticks, motor_offset)]
         else:
             ticks = self.conf["ticks"][quantity]
-        tick = round((1.0 - v) * ticks[0] + v * ticks[1])
+        tick = round(ticks[0] + v * (ticks[1] - ticks[0]))
+
         self.servo_driver2.setServoPosition(channel, tick)
+
+    def check_ball_supply(self):
+        """Continuously checking ball supply sensor and sets stirring."""
+        if self._stirr_sensor_available:
+            if not GPIO.input(self.conf["channels"]["stirr_sensor"]):
+                # reset stirrer
+                self._set_off_ticks("stirrer", 0.0)
+            else:
+                # stir balls
+                self._set_off_ticks("stirrer", 1.0)

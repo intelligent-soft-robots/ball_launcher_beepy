@@ -24,10 +24,11 @@ class BallLauncherServer:
         """Run server which starts to listen to messages from clients containing requests for the ball launcher."""
 
         while True:
-            # Wait for next request from client
-            message = self.socket.recv()
-            request = Request()
             try:
+                # Wait for next request from client
+                message = self.socket.recv(flags=zmq.NOBLOCK)
+                request = Request()
+
                 # Process message using protobuf
                 request.ParseFromString(message)
 
@@ -48,6 +49,10 @@ class BallLauncherServer:
                             request.request
                         )
                     )
+            except zmq.ZMQError as e:
+                if e.errno == zmq.EAGAIN:
+                    # called when socket does not receive a message
+                    self.launcher.check_ball_supply()
             except Exception:
                 self.socket.send(b"0")
             else:

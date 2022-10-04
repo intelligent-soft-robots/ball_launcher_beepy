@@ -19,6 +19,9 @@ sudo apt install protobuf-compiler libprotobuf-dev
 # for server side only (TODO: Does this need a sudo?)
 pip3 install xinabox-OC05
 pip3 install xinabox-OC03
+
+# usually pre-installed with raspbian 
+pip3 install RPi.GPIO
 ```
 
 ### Build using CMake
@@ -49,7 +52,8 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       "top_right_motor": 3, # motor of top right wheel
       "bottom_motor": 7, # motor of bottom wheel
       "ball_supply_push": 8, # pushes ball towards wheels
-      "stirrer": 5 # stirs ball in funnel
+      "stirrer": 5, # stirs ball in funnel
+      "stirr_sensor": 21 # stirr sensor, only add entry if equipped
     },
     # max and min values for "off" tick value of pulse
     "ticks":

@@ -1,3 +1,4 @@
+import logging
 import zmq
 
 from .ball_launcher_pb2 import Request
@@ -17,7 +18,7 @@ class BallLauncherClient:
 
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
-        print("tcp://{}:{}".format(ip_address, port_number))
+        logging.info("TCP://{}:{}".format(ip_address, port_number))
         self.socket.connect("tcp://{}:{}".format(ip_address, port_number))
 
     def set_state(
@@ -51,7 +52,7 @@ class BallLauncherClient:
             raise Exception("Ball launcher server failed to process SET_STATE request.")
 
     def launch_ball(self):
-        """Launch single ball."""
+        """Launches ball."""
         # communicate request to server using protobuf
         request = Request()
         request.request = Request.RequestType.Value("LAUNCH_BALL")

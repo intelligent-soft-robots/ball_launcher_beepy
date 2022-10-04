@@ -6,11 +6,13 @@ The ball launcher server should be running on the
 raspberry pi of the ball launcher.
 """
 
-import time, typing
-from ball_launcher_beepy import BallLauncher
+import typing
+from python.ball_launcher_beepy.ball_launcher_client import BallLauncherClient
 
 
 class _BallLauncherConfig:
+    """Stores launch configuration of launch dialog."""
+
     def __init__(self):
         # reasonable default values
         self.ip = "10.42.31.174"
@@ -23,10 +25,7 @@ class _BallLauncherConfig:
 
 
 def _dialog() -> _BallLauncherConfig:
-    """
-    Configuration dialog, provides reasonable default
-    values.
-    """
+    """Configuration dialog, provides reasonable default values."""
     config = _BallLauncherConfig()
 
     args = (
@@ -72,23 +71,24 @@ def _dialog() -> _BallLauncherConfig:
 
 def _launch(config: _BallLauncherConfig) -> None:
     """
-    Does send the ball according to the provided
+    Launches the ball according to the provided
     configuration
     """
-    with BallLauncher(
-        config.ip,
-        config.port,
+
+    client = BallLauncherClient(config.ip, config.port)
+    client.set_state(
         config.phi,
         config.theta,
         config.top_left_motor,
         config.top_right_motor,
         config.bottom_motor,
-    ) as client:
-        client.launch_ball()
+    )
+
+    client.launch_ball()
 
 
 def _execute():
-
+    """Runs launch dialog."""
     print()
     config = _dialog()
     if config != None:
