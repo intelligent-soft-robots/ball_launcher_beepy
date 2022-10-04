@@ -1,5 +1,7 @@
-# Ball Launcher
-Ball launcher control (Python), server (Python) and clients (Python or C++) that enable remote control of the ball launcher.
+# Low-level Ball Launcher Control 
+Ball Launcher Beepy is a low-level control environment for remote table tennis ball launching. It features 
+- hardware server functions for controlling of motors and servomotors via Python
+- client APIs for remote launching via Python and C++ 
 
 ## Installation
 Installation under Ubuntu 16.04 or Ubuntu 18.04
@@ -69,14 +71,23 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
     },
     "times": {
       # time to sleep after changing PWM signal in order to give system time
-      # to reach a stationary configuration. TODO: Adjust if necessary
-      "t_sleep": 1.0,
-      # time for the ball to fall to bottom of pipe in seconds
-      "t_ball_fall": 0.5,
-      # time interval during which the ball supply servo can push
-      # the ball up to the wheels (if this is too short the inertia
-      # of the rod and wheel will prevent the rod from going up).
-      "t_ball_supply_extension": 0.6
+      # to reach a stationary configuration.
+      "t_launch_delay": 1.0,
+      # time until motors are stopped if automatic motor reset is enabled.
+      "t_reset_motors": 0.5,
+      # time in endposition until default position of crank mechanism is set.
+      "t_supply_reset": 1.0,
+      # time stirring if stirring after launch is enabled.
+      "t_stirring": 4.0
+    },
+    "launching_parameters":
+    {
+      # specifier, if motors should be stopped after each launch.
+      "automatic_motor_reset": true,
+      # stroke increment for increasing position of crank mechanism
+      "ball_supply_stroke_gain": 3.0,
+      # specifier, if automatic stirring after launching should be enabled.
+      "stirring_after_launch": true
     }
 }
 ```
