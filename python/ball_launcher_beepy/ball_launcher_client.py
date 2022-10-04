@@ -10,7 +10,7 @@ class BallLauncherClient:
     Uses ZeroMQ for communication with server.
     """
 
-    def __init__(self, ip_address, port_number):
+    def __init__(self, ip_address: str, port_number: int) -> None:
         """Set up ball launcher client.
 
         Expects ip address of server as string and port number.
@@ -18,12 +18,17 @@ class BallLauncherClient:
 
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
-        logging.info("TCP://{}:{}".format(ip_address, port_number))
-        self.socket.connect("tcp://{}:{}".format(ip_address, port_number))
+        logging.info(f"tcp://{ip_address}:{port_number}")
+        self.socket.connect(f"tcp://{ip_address}:{port_number}")
 
     def set_state(
-        self, phi, theta, top_left_motor=0.0, top_right_motor=0.0, bottom_motor=0.0
-    ):
+        self,
+        phi: float,
+        theta: float,
+        top_left_motor: float = 0.0,
+        top_right_motor: float = 0.0,
+        bottom_motor: float = 0.0,
+    ) -> None:
         """Set orientation of launcher and motor speeds.
 
         Arguments:
@@ -51,7 +56,7 @@ class BallLauncherClient:
         if message == "0":
             raise Exception("Ball launcher server failed to process SET_STATE request.")
 
-    def launch_ball(self):
+    def launch_ball(self) -> None:
         """Launches ball."""
         # communicate request to server using protobuf
         request = Request()

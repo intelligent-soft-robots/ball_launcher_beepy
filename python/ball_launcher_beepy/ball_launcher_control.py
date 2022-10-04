@@ -1,6 +1,8 @@
 import json
+import logging
 import os
 import threading
+import typing
 
 import numpy as np
 
@@ -14,13 +16,13 @@ class BallLauncher:
 
     def __init__(
         self,
-        phi=0.5,
-        theta=0.5,
-        top_left_motor=0.0,
-        top_right_motor=0.0,
-        bottom_motor=0.0,
-        config_path=None,
-    ):
+        phi: float = 0.5,
+        theta: float = 0.5,
+        top_left_motor: float = 0.0,
+        top_right_motor: float = 0.0,
+        bottom_motor: float = 0.0,
+        config_path: typing.Optional[str] = None,
+    ) -> None:
         """Set up ball launcher by initializing PCA9685 controller and setting
         initial values for duty cycle of PWM signals.
 
@@ -59,13 +61,16 @@ class BallLauncher:
         # TODO: What does this do?
         self.servo_driver1.writePin(True)
 
-        # automatic motor reset after launching
-        self.automatic_motor_reset = bool(
-            self.conf["launching_parameters"]["automatic_motor_reset"]
-        )
-        self.stirring_after_launch = bool(
-            self.conf["launching_parameters"]["stirring_after_launch"]
-        )
+        try:
+            # automatic motor reset after launching
+            self.automatic_motor_reset = bool(
+                self.conf["launching_parameters"]["automatic_motor_reset"]
+            )
+            self.stirring_after_launch = bool(
+                self.conf["launching_parameters"]["stirring_after_launch"]
+            )
+        except KeyError:
+            logging.error(f"Configuration does not contain parameters.")
 
         # initialisierung GPIO Ports for stirr sensor if available
         self._stirr_sensor_available = False
@@ -77,7 +82,7 @@ class BallLauncher:
 
         self.set_state(0.5, 0.5, 0.0, 0.0, 0.0)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """Switches off motors and sets orientation to neutral."""
 
         self.set_state(0.5, 0.5, 0.0, 0.0, 0.0)
@@ -87,8 +92,13 @@ class BallLauncher:
         self.servo_driver1.writePin(False)
 
     def set_state(
-        self, phi, theta, top_left_motor=0.0, top_right_motor=0.0, bottom_motor=0.0
-    ):
+        self,
+        phi: float,
+        theta: float,
+        top_left_motor: float = 0.0,
+        top_right_motor: float = 0.0,
+        bottom_motor: float = 0.0,
+    ) -> None:
         """Set orientation of launcher and motor speeds.
 
         Arguments:
@@ -111,15 +121,15 @@ class BallLauncher:
         self._set_off_ticks("top_right_motor", self.top_right_motor, motor=True)
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
-    def launch_ball(self):
+    def launch_ball(self) -> None:
         """Sets state and launches ball. Resets state after specified time."""
 
-        def _timed_reset_stirring(self):
+        def _timed_reset_stirring(self) -> None:
             """Timed function for reseting stirring."""
             # reset stirrer
             self._set_off_ticks("stirrer", 0.0)
 
-        def _timed_launching(self):
+        def _timed_launching(self) -> None:
             """Timed function for delayed launching."""
             self._set_off_ticks("ball_supply_push", 0.0)
             for tick in np.arange(
@@ -131,7 +141,7 @@ class BallLauncher:
                     self.conf["channels"]["ball_supply_push"], tick
                 )
 
-        def _timed_reset_ball_supply(self):
+        def _timed_reset_ball_supply(self) -> None:
             """Timed function for reseting / retracting ball supply rod."""
             self._set_off_ticks("ball_supply_push", 0.0)
 
@@ -164,7 +174,7 @@ class BallLauncher:
             )
             motor_reset_timer.start()
 
-    def _set_off_ticks(self, quantity, value, motor=False):
+    def _set_off_ticks(self, quantity: str, value: float, motor: bool = False) -> None:
         """Set tick value (integers) for end of pulse for PWM signal.
 
         Arguments:
@@ -184,7 +194,7 @@ class BallLauncher:
 
         self.servo_driver2.setServoPosition(channel, tick)
 
-    def check_ball_supply(self):
+    def check_ball_supply(self) -> None:
         """Continuously checking ball supply sensor and sets stirring."""
         if self._stirr_sensor_available:
             if not GPIO.input(self.conf["channels"]["stirr_sensor"]):

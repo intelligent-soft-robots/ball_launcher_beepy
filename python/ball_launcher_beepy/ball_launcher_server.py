@@ -10,12 +10,12 @@ class BallLauncherServer:
     Uses ZeroMQ for communication with clients. Uses BallLauncher
     object for control of ball launcher."""
 
-    def __init__(self, port_number):
+    def __init__(self, port_number: int):
         """Set up ball launcher server. Expects port number."""
 
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REP)
-        self.socket.bind("tcp://*:{}".format(port_number))
+        self.socket.bind(f"tcp://*:{port_number}")
 
         # BallLauncher object that controls servos. Initialized at neutral orientation, wheels at rest.
         self.launcher = BallLauncher()

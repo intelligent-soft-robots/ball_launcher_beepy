@@ -7,13 +7,13 @@ raspberry pi of the ball launcher.
 """
 
 import typing
-from python.ball_launcher_beepy.ball_launcher_client import BallLauncherClient
+from ball_launcher_beepy.ball_launcher_client import BallLauncherClient
 
 
 class _BallLauncherConfig:
     """Stores launch configuration of launch dialog."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         # reasonable default values
         self.ip = "10.42.31.174"
         self.port = 5555
@@ -87,7 +87,7 @@ def _launch(config: _BallLauncherConfig) -> None:
     client.launch_ball()
 
 
-def _execute():
+def _execute() -> None:
     """Runs launch dialog."""
     print()
     config = _dialog()
