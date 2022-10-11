@@ -72,7 +72,7 @@ class BallLauncher:
         except KeyError as e:
             logging.error(f"Configuration does not contain parameter {e}.")
 
-        # initialisierung GPIO Ports for stirr sensor if available
+        # initialize GPIO ports for stirr sensor if configured
         self._stirr_sensor_available = False
 
         if "stirr_sensor" in self.conf["channels"]:
@@ -122,7 +122,8 @@ class BallLauncher:
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
     def launch_ball(self) -> None:
-        """Sets state and launches ball. Resets state after specified time."""
+        """Launches ball. Resets rod position of crank mechanism for ball suppply 
+        after time specified in configuration file."""
 
         def _timed_reset_stirring(self) -> None:
             """Timed function for reseting stirring."""
