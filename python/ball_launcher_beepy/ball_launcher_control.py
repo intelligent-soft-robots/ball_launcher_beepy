@@ -69,8 +69,8 @@ class BallLauncher:
             self.stirring_after_launch = bool(
                 self.conf["launching_parameters"]["stirring_after_launch"]
             )
-        except KeyError:
-            logging.error(f"Configuration does not contain parameters.")
+        except KeyError as e:
+            logging.error(f"Configuration does not contain parameter {e}.")
 
         # initialisierung GPIO Ports for stirr sensor if available
         self._stirr_sensor_available = False
