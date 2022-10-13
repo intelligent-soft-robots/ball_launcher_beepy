@@ -1,7 +1,7 @@
 from .ball_launcher_client import BallLauncherClient
-from .ball_launcher import BallLauncher
 
 try:
+    from .ball_launcher_gui import BallLauncherGUI
     from .ball_launcher_server import BallLauncherServer
 except ModuleNotFoundError as e:
     # if not on the server raspberry pi, the modules required
@@ -11,6 +11,4 @@ except ModuleNotFoundError as e:
     # why this fails.
     class BallLauncherServer:
         def __init__(self, _):
-            raise Exception(
-                "Fails to start the server because of missing module: {}".format(e)
-            )
+            raise Exception(f"Fails to start the server because of missing module: {e}")
