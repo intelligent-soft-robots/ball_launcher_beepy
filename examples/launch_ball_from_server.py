@@ -1,10 +1,10 @@
 """Set up ball launcher and launch one ball.
 
-Expects azimuthal angle (phi) and altitude of angle (theta) 
-of launcher and motor activation of all three wheels as 
-command line argument, i.e., five floating point numbers in the 
+Expects azimuthal angle (phi) and altitude of angle (theta)
+of launcher and motor activation of all three wheels as
+command line argument, i.e., five floating point numbers in the
 range (0, 1) where 0 is minimal and 1 is maximal. Note: At a
-motor activation of 0 the wheels don't turn at all and hence 
+motor activation of 0 the wheels don't turn at all and hence
 the ball won't be launched. """
 
 import argparse

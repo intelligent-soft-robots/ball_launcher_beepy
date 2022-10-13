@@ -5,10 +5,9 @@ import threading
 import typing
 
 import numpy as np
-
-from xOC05 import xOC05
-from xOC03 import xOC03  # TODO: Why do we import a module for a second servo driver?
 from RPi import GPIO
+from xOC03 import xOC03  # TODO: Why do we import a module for a second servo driver?
+from xOC05 import xOC05
 
 
 class BallLauncher:
@@ -122,7 +121,7 @@ class BallLauncher:
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
 
     def launch_ball(self) -> None:
-        """Launches ball. Resets rod position of crank mechanism for ball suppply 
+        """Launches ball. Resets rod position of crank mechanism for ball suppply
         after time specified in configuration file."""
 
         def _timed_reset_stirring(self) -> None:

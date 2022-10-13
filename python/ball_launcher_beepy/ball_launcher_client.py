@@ -1,4 +1,5 @@
 import logging
+
 import zmq
 
 from .ball_launcher_pb2 import Request

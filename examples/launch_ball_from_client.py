@@ -1,4 +1,5 @@
-"""Start client, send set state request and then launch ball request to ball launcher server. 
+"""Start client, send set state request and then launch ball request
+to ball launcher server.
 
 Expects IP address of server and port number as command line arguments."""
 
@@ -8,7 +9,8 @@ from ball_launcher_beepy import BallLauncherClient
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Start client, send set state request and then launch ball request to ball launcher server."
+        description="Start client, send set state request and then launch ball request"
+        "to ball launcher server."
     )
     parser.add_argument("ip", type=str, help="IP address of ball launcher server.")
     parser.add_argument("port", type=str, help="Port number of ball launcher server.")

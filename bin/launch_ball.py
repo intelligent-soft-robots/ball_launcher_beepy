@@ -2,11 +2,12 @@
 
 """
 Connects to ball launcher beepy and send a ball.
-The ball launcher server should be running on the 
+The ball launcher server should be running on the
 raspberry pi of the ball launcher.
 """
 
 import typing
+
 from ball_launcher_beepy.ball_launcher_client import BallLauncherClient
 
 
@@ -91,7 +92,7 @@ def _execute() -> None:
     """Runs launch dialog."""
     print()
     config = _dialog()
-    if config != None:
+    if config is not None:
         _launch(config)
     print()
 
