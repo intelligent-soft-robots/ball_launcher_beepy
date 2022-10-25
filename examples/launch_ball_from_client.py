@@ -8,10 +8,7 @@ import argparse
 from ball_launcher_beepy import BallLauncherClient
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Start client, send set state request and then launch ball request"
-        "to ball launcher server."
-    )
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("ip", type=str, help="IP address of ball launcher server.")
     parser.add_argument("port", type=str, help="Port number of ball launcher server.")
     parser.add_argument("phi", type=float, help="Azimuthal angle of launcher head.")

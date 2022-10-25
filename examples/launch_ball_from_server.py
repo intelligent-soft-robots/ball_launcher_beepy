@@ -12,9 +12,7 @@ import argparse
 from ball_launcher_beepy.ball_launcher_control import BallLauncher
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Set up ball launcher and launch one ball."
-    )
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("phi", type=float, help="Azimuthal angle of launcher head.")
     parser.add_argument("theta", type=float, help="Altitude angle of launcher head.")
     parser.add_argument(
