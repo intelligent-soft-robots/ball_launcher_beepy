@@ -1,6 +1,6 @@
 import zmq
 
-from .ball_launcher_control import BallLauncher
+from .ball_launcher_control import BallLauncherControl
 from .ball_launcher_pb2 import Request
 
 
@@ -19,7 +19,7 @@ class BallLauncherServer:
 
         # BallLauncher object that controls servos. Initialized at neutral orientation,
         # wheels at rest.
-        self.launcher = BallLauncher()
+        self.launcher = BallLauncherControl()
 
     def run(self):
         """Run server which starts to listen to messages from clients containing

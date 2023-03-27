@@ -10,7 +10,7 @@ from xOC03 import xOC03  # TODO: Why do we import a module for a second servo dr
 from xOC05 import xOC05
 
 
-class BallLauncher:
+class BallLauncherControl:
     """Control of the ball launcher. Handles setting of PWM signals."""
 
     def __init__(
@@ -80,6 +80,7 @@ class BallLauncher:
             GPIO.setup(self.conf["channels"]["stirr_sensor"], GPIO.IN)
 
         self.set_state(0.5, 0.5, 0.0, 0.0, 0.0)
+        self.launcher_ready_flag = True
 
     def __del__(self) -> None:
         """Switches off motors and sets orientation to neutral."""
@@ -124,12 +125,12 @@ class BallLauncher:
         """Launches ball. Resets rod position of crank mechanism for ball supply
         after time specified in configuration file."""
 
-        def _timed_reset_stirring(self) -> None:
+        def _timed_reset_stirring() -> None:
             """Timed function for reseting stirring."""
             # reset stirrer
             self._set_off_ticks("stirrer", 0.0)
 
-        def _timed_launching(self) -> None:
+        def _timed_launching() -> None:
             """Timed function for delayed launching."""
             self._set_off_ticks("ball_supply_push", 0.0)
             for tick in np.arange(
@@ -140,10 +141,12 @@ class BallLauncher:
                 self.servo_driver2.setServoPosition(
                     self.conf["channels"]["ball_supply_push"], tick
                 )
+            self.launcher_ready_flag = False
 
-        def _timed_reset_ball_supply(self) -> None:
+        def _timed_reset_ball_supply() -> None:
             """Timed function for reseting / retracting ball supply rod."""
             self._set_off_ticks("ball_supply_push", 0.0)
+            self.launcher_ready_flag = True
 
         if self.stirring_after_launch:
             # stir balls
@@ -154,16 +157,17 @@ class BallLauncher:
             stirr_timer = threading.Timer(stirring_time, _timed_reset_stirring)
             stirr_timer.start()
 
-        # close and push one ball to wheels
-        t_launch_delay = self.conf["times"]["t_launch_delay"]
-        launch_timer = threading.Timer(t_launch_delay, _timed_launching)
-        launch_timer.start()
+        if self.launcher_ready_flag:
+            # close and push one ball to wheels
+            t_launch_delay = self.conf["times"]["t_launch_delay"]
+            launch_timer = threading.Timer(t_launch_delay, _timed_launching)
+            launch_timer.start()
 
-        # resets crank mechanism of ball supply unit
-        t_supply_reset = self.conf["times"]["t_supply_reset"]
-        t_supply_reset += t_launch_delay
-        supply_timer = threading.Timer(t_supply_reset, _timed_reset_ball_supply)
-        supply_timer.start()
+            # resets crank mechanism of ball supply unit
+            t_supply_reset = self.conf["times"]["t_supply_reset"]
+            t_supply_reset += t_launch_delay
+            supply_timer = threading.Timer(t_supply_reset, _timed_reset_ball_supply)
+            supply_timer.start()
 
         if self.automatic_motor_reset:
             # turns motors off after launch

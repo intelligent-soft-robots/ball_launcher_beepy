@@ -94,6 +94,26 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
 
 ## Usage
 
+### Usage via graphical user interface
+
+After successful build of the ball launcher software with ```colcon build```, colcon provides executables. For running the ball launcher directly via graphical user interface on a screen, type ```ball_launcher_gui``` in a terminal.
+
+> **Note**
+> The setup.bash generated with colcon has to be sourced in your current terminal session, so the terminal knows the corresponding commands.
+
+For providing the GUI for users without coding experience, we recommend pasting the following code into a shell script:
+
+```bash
+#!/bin/bash
+
+source ~/.bashrc
+source ~/PATH_TO_COLCON_FOLDER/install/setup.bash
+
+ball_Launcher_gui
+```
+
+Set the script to executable in the properties menue of the shell script. 
+
 ### Start server
 On Raspberry Pi built into ball launcher (in repository directory),
 
@@ -102,23 +122,26 @@ python tests/run_server.py port_number
 ```
 where port\_number specifies the port number, e.g., 5555.
 
+The server can also be started via the shell command ```ball_launcher_server```, if the colcon setup.bash file is properly sourced.
+
 ### Creating a client in Python and launching a ball
 See tests/launch\_ball\_from\_client.py
 
 ```python
 import sys
 
-import ball_launcher.ball_launcher_client as ball_launcher_client
+from ball_launcher_beepy import BallLauncherClient
 
 ip_address = sys.argv[1]
 port = int(sys.argv[2])
-client = ball_launcher_client.BallLauncherClient(ip_address, port)
+client = BallLauncherClient(ip_address, port)
 
 client.set_state(
         phi = 0.5, 
         theta = 0.5, 
-        top_ang_vel = 0.3, 
-        bottom_ang_vel = 0.4)
+        top_left_actuation = 0.3,
+        top_right_actuation = 0.3,
+        bottom_center_actuation = 0.3)
 
 client.launch_ball()
 ```
