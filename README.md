@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./docs/AIMY_banner.png"width="100%" alt="AIMY Logo" align="center"/>
+</p>
+
 # Low-level Ball Launcher Control 
 Ball Launcher Beepy is a low-level control environment for remote table tennis ball launching. It features 
 - hardware server functions for controlling of motors and servomotors via Python
@@ -164,5 +168,19 @@ int main(int argc, char* argv[]){
     bl_client.launch_ball();
 
     return 0;
+}
+```
+
+# Citing
+
+To cite this project in your academic research, please use the following bibtex lines:
+```bibtex
+@misc{dittrich2023aimy,
+      title={AIMY: An Open-source Table Tennis Ball Launcher for Versatile and High-fidelity Trajectory Generation}, 
+      author={Alexander Dittrich and Jan Schneider and Simon Guist and Nico Gürtler and Heiko Ott and Thomas Steinbrenner and Bernhard Schölkopf and Dieter Büchler},
+      year={2023},
+      eprint={2210.06048},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO}
 }
 ```
