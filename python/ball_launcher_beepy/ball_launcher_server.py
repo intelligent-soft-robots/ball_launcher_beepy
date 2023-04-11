@@ -1,7 +1,7 @@
 import zmq
 
+from .ball_launcher_control import BallLauncherControl
 from .ball_launcher_pb2 import Request
-from .ball_launcher_control import BallLauncher
 
 
 class BallLauncherServer:
@@ -10,24 +10,28 @@ class BallLauncherServer:
     Uses ZeroMQ for communication with clients. Uses BallLauncher
     object for control of ball launcher."""
 
-    def __init__(self, port_number):
+    def __init__(self, port_number: int):
         """Set up ball launcher server. Expects port number."""
 
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REP)
-        self.socket.bind("tcp://*:{}".format(port_number))
+        self.socket.bind(f"tcp://*:{port_number}")
 
-        # BallLauncher object that controls servos. Initialized at neutral orientation, wheels at rest.
-        self.launcher = BallLauncher()
+        # BallLauncher object that controls servos. Initialized at neutral orientation,
+        # wheels at rest.
+        self.launcher = BallLauncherControl()
 
     def run(self):
-        """Run server which starts to listen to messages from clients containing requests for the ball launcher."""
+        """Run server which starts to listen to messages from clients containing
+        requests for the ball launcher."""
 
         while True:
-            # Wait for next request from client
-            message = self.socket.recv()
-            request = Request()
             try:
+                # Wait for next request from client, NOBLOCK will raise EAGAIN if
+                # the event cannot be completed.
+                message = self.socket.recv(flags=zmq.NOBLOCK)
+                request = Request()
+
                 # Process message using protobuf
                 request.ParseFromString(message)
 
@@ -44,11 +48,14 @@ class BallLauncherServer:
                     self.launcher.launch_ball()
                 else:
                     raise Exception(
-                        "Ball launcher server: Unknown request type: {}".format(
-                            request.request
-                        )
+                        f"Ball launcher server: Unknown request type: {request.request}"
                     )
+            except zmq.ZMQError as e:
+                if e.errno == zmq.EAGAIN:
+                    # called when socket does not receive a message
+                    self.launcher.check_ball_supply()
             except Exception:
+                # returns
                 self.socket.send(b"0")
             else:
                 self.socket.send(b"1")
