@@ -3,7 +3,7 @@ import tkinter as tk
 
 
 class BallLauncherGUI:
-    def __init__(self, root, demo_mode: bool) -> None:
+    def __init__(self, root: tk.Tk, demo_mode: bool) -> None:
         self.root = root
 
         self.root.winfo_screenwidth()
@@ -208,6 +208,7 @@ class BallLauncherGUI:
 
 def run_gui(demo_mode: bool = False):
     root = tk.Tk()
+    print(type(root))
     BallLauncherGUI(root, demo_mode)
     root.mainloop()
 
