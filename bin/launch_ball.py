@@ -10,14 +10,17 @@ import typing
 
 from ball_launcher_beepy.ball_launcher_client import BallLauncherClient
 
+IP = "10.42.31.174"
+PORT = 5555
+
 
 class _BallLauncherConfig:
     """Stores launch configuration of launch dialog."""
 
     def __init__(self) -> None:
         # reasonable default values
-        self.ip = "10.42.31.174"
-        self.port = 5555
+        self.ip = IP
+        self.port = PORT
         self.phi = 0.5
         self.theta = 0.5
         self.top_left_motor = 0.5
