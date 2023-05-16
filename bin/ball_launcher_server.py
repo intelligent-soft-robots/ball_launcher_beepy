@@ -4,7 +4,7 @@
 Starts the ball launcher server on port 5555
 """
 
-from ball_launcher_beepy import BallLauncherServer
+from ball_launcher_beepy.ball_launcher_server import BallLauncherServer
 
 if __name__ == "__main__":
     server = BallLauncherServer(5555)

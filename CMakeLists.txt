@@ -38,6 +38,7 @@ endif()
 
 # installing python executables
 install_scripts(
+  ${CMAKE_CURRENT_LIST_DIR}/bin/ball_launcher_gui.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/ball_launcher_server.py
   ${CMAKE_CURRENT_LIST_DIR}/bin/launch_ball.py
   DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/

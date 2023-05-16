@@ -4,3 +4,6 @@
 *.egg-info
 build
 *~
+
+config/
+.idea/
