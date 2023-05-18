@@ -10,8 +10,7 @@ import typing
 
 from ball_launcher_beepy.ball_launcher_client import BallLauncherClient
 
-IP = "10.42.31.174" # first prototype ball launcher
-IP = "10.42.26.171" # beta version: AIMY
+IP = "10.42.26.171" # AIMY IP
 PORT = 5555
 
 
@@ -81,7 +80,7 @@ def _launch(config: _BallLauncherConfig) -> None:
     """
 
     client = BallLauncherClient(config.ip, config.port)
-    client.set_state(
+    client.set_rpm(
         config.phi,
         config.theta,
         config.top_left_motor,

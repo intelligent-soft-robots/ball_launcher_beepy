@@ -92,6 +92,17 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       "ball_supply_stroke_gain": 3.0,
       # specifier, if automatic stirring after launching should be enabled.
       "stirring_after_launch": true
+    },
+    "rpm_conversion":
+    {
+        "rpm_tl": [0, 489, 1278, 1865, 2354, 2694, 2959, 3170,
+            3321, 3434, 3524, 3615, 3688, 3931, 3968, 3970],
+        "rpm_tr": [0, 470, 1250, 1828, 2325, 2667, 2939, 3149,
+            3299, 3418, 3509, 3600, 3678, 3937, 3961, 3963],
+        "rpm_bc": [0, 524, 1291, 1900, 2369, 2722, 2977, 3184,
+            3331, 3435, 3529, 3613, 3681, 3933, 3957, 3960],
+        "actuation": [0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 
+            0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00]
     }
 }
 ```

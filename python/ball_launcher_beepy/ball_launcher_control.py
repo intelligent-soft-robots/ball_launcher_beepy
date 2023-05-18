@@ -3,8 +3,11 @@ import logging
 import os
 import threading
 import typing
+import warnings
 
 import numpy as np
+from scipy.interpolate import interp1d
+
 from RPi import GPIO
 from xOC03 import xOC03  # TODO: Why do we import a module for a second servo driver?
 from xOC05 import xOC05
@@ -120,6 +123,49 @@ class BallLauncherControl:
         self._set_off_ticks("top_left_motor", self.top_left_motor, motor=True)
         self._set_off_ticks("top_right_motor", self.top_right_motor, motor=True)
         self._set_off_ticks("bottom_motor", self.bottom_motor, motor=True)
+
+    def set_rpm(
+            self,
+            phi: float,
+            theta: float,
+            rpm_top_left: float,
+            rpm_top_right: float,
+            rpm_bottom_center: float
+    ):  
+        set_flag = True
+
+        rpm_tl = self.config["rpm_conversion"]["rpm_tl"]
+        rpm_tr = self.config["rpm_conversion"]["rpm_tr"]
+        rpm_bc = self.config["rpm_conversion"]["rpm_bc"]
+        actuation = self.config["rpm_conversion"]["actuation"]
+
+        rpm_list = [rpm_top_left, rpm_top_right, rpm_bottom_center]
+
+        # sets interpolation limits
+        minimum_rpm = float(max([min(rpm_tr), min(rpm_tl), min(rpm_bc)]))
+        maximum_rpm = float(min([max(rpm_tr), max(rpm_tl), max(rpm_bc)]))
+        
+        for rpm in rpm_list:
+            if minimum_rpm > rpm > maximum_rpm:
+                warnings.warn("Given speed cannot be set. Set is ommitted.")
+                set_flag = False
+
+        if set_flag:
+            f_tl = interp1d(rpm_tl, actuation)
+            f_tr = interp1d(rpm_tr, actuation)
+            f_bc = interp1d(rpm_bc, actuation)
+
+            actuation_top_left = f_tl(rpm_top_left)
+            actuation_top_right = f_tr(rpm_top_right)
+            actuation_bottom_center = f_bc(rpm_bottom_center)
+
+            self.set_state(
+                phi=phi,
+                theta=theta,
+                top_left_motor=actuation_top_left,
+                top_right_motor=actuation_top_right,
+                bottom_motor=actuation_bottom_center,
+            )
 
     def launch_ball(self) -> None:
         """Launches ball. Resets rod position of crank mechanism for ball supply
