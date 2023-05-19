@@ -131,20 +131,20 @@ class BallLauncherControl:
             rpm_top_left: float,
             rpm_top_right: float,
             rpm_bottom_center: float
-    ):  
+    ):
         set_flag = True
 
-        rpm_tl = self.config["rpm_conversion"]["rpm_tl"]
-        rpm_tr = self.config["rpm_conversion"]["rpm_tr"]
-        rpm_bc = self.config["rpm_conversion"]["rpm_bc"]
-        actuation = self.config["rpm_conversion"]["actuation"]
+        rpm_tl = self.conf["rpm_conversion"]["rpm_tl"]
+        rpm_tr = self.conf["rpm_conversion"]["rpm_tr"]
+        rpm_bc = self.conf["rpm_conversion"]["rpm_bc"]
+        actuation = self.conf["rpm_conversion"]["actuation"]
 
         rpm_list = [rpm_top_left, rpm_top_right, rpm_bottom_center]
 
         # sets interpolation limits
         minimum_rpm = float(max([min(rpm_tr), min(rpm_tl), min(rpm_bc)]))
         maximum_rpm = float(min([max(rpm_tr), max(rpm_tl), max(rpm_bc)]))
-        
+
         for rpm in rpm_list:
             if minimum_rpm > rpm > maximum_rpm:
                 warnings.warn("Given speed cannot be set. Set is ommitted.")

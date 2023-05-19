@@ -44,6 +44,14 @@ class BallLauncherServer:
                         top_right_motor=request.state.top_right_motor,
                         bottom_motor=request.state.bottom_motor,
                     )
+                elif request.request == Request.RequestType.SET_RPM:
+                    self.launcher.set_rpm(
+                        request.state.phi,
+                        request.state.theta,
+                        request.state.top_left_motor,
+                        request.state.top_right_motor,
+                        request.state.bottom_motor,
+                    )
                 elif request.request == Request.RequestType.LAUNCH_BALL:
                     self.launcher.launch_ball()
                 else:

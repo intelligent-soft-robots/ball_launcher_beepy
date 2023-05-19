@@ -23,9 +23,9 @@ class _BallLauncherConfig:
         self.port = PORT
         self.phi = 0.5
         self.theta = 0.5
-        self.top_left_motor = 0.5
-        self.top_right_motor = 0.5
-        self.bottom_motor = 0.5
+        self.top_left_motor = 1000
+        self.top_right_motor = 1000
+        self.bottom_motor = 1000
 
 
 def _dialog() -> _BallLauncherConfig:
@@ -49,7 +49,7 @@ def _dialog() -> _BallLauncherConfig:
         ok = False
         while not ok:
             value = input(
-                str("\tvalue for {} ({}): ").format(arg, getattr(config, arg))
+                str("\tvalue for {} ({} rpm): ").format(arg, getattr(config, arg))
             )
             if value == "":
                 # user pressed enter, using default value

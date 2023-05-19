@@ -5,7 +5,9 @@ package ball_launcher;
 message Request {
   enum RequestType {
     SET_STATE = 0;
+    SET_RPM = 2;
     LAUNCH_BALL = 1;
+    
   }
 
   message State {

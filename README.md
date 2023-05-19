@@ -91,7 +91,7 @@ The off ticks of the PWM signals as well as sleep times can be adjusted in a JSO
       # stroke increment for increasing position of crank mechanism
       "ball_supply_stroke_gain": 3.0,
       # specifier, if automatic stirring after launching should be enabled.
-      "stirring_after_launch": true
+      "stirring_after_launch": true,
     },
     "rpm_conversion":
     {
