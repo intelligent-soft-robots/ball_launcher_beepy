@@ -49,7 +49,7 @@ def _dialog() -> _BallLauncherConfig:
         ok = False
         while not ok:
             value = input(
-                str("\tvalue for {} ({} rpm): ").format(arg, getattr(config, arg))
+                str("\tvalue for {} ({}): ").format(arg, getattr(config, arg))
             )
             if value == "":
                 # user pressed enter, using default value
