@@ -225,7 +225,7 @@ class BallLauncherControl:
             motor_reset_timer.start()
 
     def _set_off_ticks(self, quantity: str, value: float, motor: bool = False) -> None:
-        """Set tick value (integers) for end of pulse for PWM signal.
+        """Set tick value for end of pulse for PWM signal.
 
         Arguments:
         quantity -- name of the channel to be modified (see config file)
@@ -240,7 +240,7 @@ class BallLauncherControl:
             ticks = [t + offset for t, offset in zip(motor_ticks, motor_offset)]
         else:
             ticks = self.conf["ticks"][quantity]
-        tick = round(ticks[0] + v * (ticks[1] - ticks[0]))
+        tick = ticks[0] + v * (ticks[1] - ticks[0])
 
         self.servo_driver2.setServoPosition(channel, tick)
 
