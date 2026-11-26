@@ -1,3 +1,5 @@
+import time
+
 import zmq
 
 from .ball_launcher_control import BallLauncherControl
@@ -62,6 +64,7 @@ class BallLauncherServer:
                 if e.errno == zmq.EAGAIN:
                     # called when socket does not receive a message
                     self.launcher.check_ball_supply()
+                    time.sleep(0.001)
             except Exception:
                 # returns
                 self.socket.send(b"0")
